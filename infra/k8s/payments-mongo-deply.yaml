@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments-mongo # how deployment is going to find the pod it actually creates
+  template:
+    metadata:
+      labels:
+        app: payments-mongo #label that gets applied to pod
+    spec:
+      containers:
+        - name: payments-mongo #only for logging
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-mongo-srv
+spec:
+  selector:
+    app: payments-mongo # telling this service which pod it will give access to 
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

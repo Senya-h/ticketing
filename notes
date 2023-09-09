@@ -1,0 +1,19 @@
+sync request in microservices mean a direct request from one service to another
+
+AUTH STRATEGIES
+1: from ORder Service send sync request to Auth service to check if auth
+
+1.1: send request first to an auth gateway to check if is auth, and if is, pass the request on
+
+k create secret generic jwt-secret --from-literal=jwt=asdf
+k get secrets
+k get services -n <namespace>
+k get namespaces (all this time we were creating pods under the same namespace; if we are in client, accessing by http://auth-srv only works if they are in the same namespace)
+
+k port-forward <pod_name> 4222:4222 (from local : port on the pod) ((needs to be kept running))
+
+if you want to use common modules but have different languages for services (java, node, php), you can use JSON schema, Protobuf, Apache Avro with cross language support
+
+
+
+341 video geras
