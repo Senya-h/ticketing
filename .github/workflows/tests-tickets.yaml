@@ -1,7 +1,9 @@
 name: tests-tickets
 
 on:
-  pull_request
+  pull_request:
+    paths: # if there's ever a pull request, run jobs only if changes are inside auth directory
+      - 'tickets/**'
 
 jobs:
   build:
