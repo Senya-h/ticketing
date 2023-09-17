@@ -5,8 +5,13 @@ export default ({ req }) => {
     // we are on server
     // we can create an external name service for this to simplify (remap) it
     // serviceName.nameSpace.svc.cluster.local
+    // return axios.create({
+    //   baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local', TODO CREATE AN ENV VAR
+    //   headers: req.headers
+    // });
+
     return axios.create({
-      baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
+      baseURL: 'http://www.tickets-app-something.xyz',
       headers: req.headers
     });
     // const { data } = await axios.get('/api/users/currentuser', {
