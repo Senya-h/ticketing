@@ -13,7 +13,8 @@ app.set('trust proxy', true); // letting express know that it's behind a proxy o
 app.use(json());
 app.use(cookieSession({
   signed: false, // no need for encryption
-  secure: process.env.NODE_ENV !== 'test' // only allow cookies over HTTPS
+  // secure: process.env.NODE_ENV !== 'test' // only allow cookies over HTTPS
+  secure: false // TODO enable https on live server
 }));
 app.use(currentUser);
 app.use(deleteOrderRouter);
