@@ -16,10 +16,19 @@ app.use(cookieSession({
   secure: process.env.NODE_ENV !== 'test' // only allow cookies over HTTPS
 }));
 
+// app.use(errorHandler);
+
 app.use(currentUserRouter);
 app.use(signInRouter);
 app.use(signOutRouter);
 app.use(signUpRouter);
+
+// @ts-ignore
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+
 
 app.all('*', () => {
   throw new NotFoundError();
@@ -30,6 +39,5 @@ app.all('*', () => {
 //   next(new NotFoundError());
 // })
 
-app.use(errorHandler);
 
 export { app };

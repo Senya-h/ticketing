@@ -14,8 +14,6 @@ validateRequest,
 async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  console.log('I AM CALLED');
-
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     // return res.status(202).send();

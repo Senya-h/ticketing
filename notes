@@ -14,6 +14,8 @@ k port-forward <pod_name> 4222:4222 (from local : port on the pod) ((needs to be
 
 if you want to use common modules but have different languages for services (java, node, php), you can use JSON schema, Protobuf, Apache Avro with cross language support
 
+doctl kubernetes cluster kubeconfig save tickets // pakeicia kubectl context, tai kai leidziu lokaliai, is tikro tikrina ant cloud'o
+k config view // parodo visus galimus contexts
 
 
 341 video geras
