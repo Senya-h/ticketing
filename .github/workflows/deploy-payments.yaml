@@ -1,0 +1,25 @@
+name: deploy-payments
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'payments/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd payments && docker build -t amkura/payments .
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push amkura/payments
+      - uses: digitalocean/action-doctl@v2 # installs doctl into git
+        with:
+          token: ${{ secrets.DIGITAL_OCEAN_ACCESS_TOKEN }} # using this for authorization
+      - run: doctl kubernetes cluster kubeconfig save tickets # reaching into the cluster
+      - run: kubectl rollout restart deployment payments-depl # reaching into the cluster to restart

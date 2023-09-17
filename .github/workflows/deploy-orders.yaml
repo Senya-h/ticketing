@@ -1,0 +1,25 @@
+name: deploy-orders
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'orders/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd orders && docker build -t amkura/orders .
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push amkura/orders
+      - uses: digitalocean/action-doctl@v2 # installs doctl into git
+        with:
+          token: ${{ secrets.DIGITAL_OCEAN_ACCESS_TOKEN }} # using this for authorization
+      - run: doctl kubernetes cluster kubeconfig save tickets # reaching into the cluster
+      - run: kubectl rollout restart deployment orders-depl # reaching into the cluster to restart
